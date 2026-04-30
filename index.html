@@ -610,19 +610,26 @@
 
   // ── LOAD DATA FROM GOOGLE SHEETS ──
   async function loadData() {
-    setSyncStatus('yellow', 'Syncing with Google Sheets...')
-    try {
-      const data = await apiGet({ action: 'getData' })
-      sales       = data.sales   || []
-      modals      = data.modals  || []
-      prevBalance = Number(data.prevBalance) || 0
-      document.getElementById('prevBalance').value = prevBalance > 0 ? prevBalance : ''
-      render()
-      setSyncStatus('green', `Synced · ${new Date().toLocaleTimeString('en-MY')}`)
-    } catch (err) {
-      setSyncStatus('red', 'Sync failed — check connection')
-    }
+  setSyncStatus('yellow', 'Syncing with Google Sheets...')
+  try {
+    const data = await apiGet({ action: 'getData' })
+    sales = (data.sales || []).map(s => ({
+      ...s,
+      sale:   Number(s.sale)   || 0,
+      profit: Number(s.profit) || 0,
+    }))
+    modals = (data.modals || []).map(m => ({
+      ...m,
+      price: Number(m.price) || 0,
+    }))
+    prevBalance = Number(data.prevBalance) || 0
+    document.getElementById('prevBalance').value = prevBalance > 0 ? prevBalance : ''
+    render()
+    setSyncStatus('green', `Synced · ${new Date().toLocaleTimeString('en-MY')}`)
+  } catch (err) {
+    setSyncStatus('red', 'Sync failed — check connection')
   }
+}
 
   // ── LOGIN ──
   function login() {
