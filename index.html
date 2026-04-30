@@ -110,6 +110,7 @@
     display: flex; align-items: center;
     justify-content: space-between;
     position: sticky; top: 0; z-index: 10;
+    flex-wrap: wrap; gap: 10px;
   }
 
   .brand {
@@ -123,7 +124,7 @@
     letter-spacing: 0.1em; margin-top: 2px;
   }
 
-  .header-right { display: flex; align-items: center; gap: 12px; }
+  .header-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 
   .user-tag {
     font-size: 11px; color: var(--muted);
@@ -134,14 +135,22 @@
 
   .user-tag span { color: var(--accent2); }
 
-  .logout-btn {
+  .hbtn {
     padding: 6px 12px; background: transparent;
     border: 1px solid var(--border); border-radius: 4px;
-    color: var(--muted); font-family: 'DM Mono', monospace;
+    font-family: 'DM Mono', monospace;
     font-size: 11px; cursor: pointer; transition: all 0.2s;
+    white-space: nowrap;
   }
 
-  .logout-btn:hover { border-color: var(--red); color: var(--red); }
+  .hbtn-csv    { color: var(--green);  border-color: var(--green); }
+  .hbtn-csv:hover { background: var(--green); color: #000; }
+
+  .hbtn-reset  { color: var(--accent2); border-color: var(--accent2); }
+  .hbtn-reset:hover { background: var(--accent2); color: #000; }
+
+  .hbtn-logout { color: var(--muted); }
+  .hbtn-logout:hover { border-color: var(--red); color: var(--red); }
 
   /* MAIN */
   .main { max-width: 1100px; margin: 0 auto; padding: 24px 20px 60px; }
@@ -190,10 +199,9 @@
   .big-stat.sales  .big-stat-value { color: var(--green); }
   .big-stat.profit .big-stat-value { color: var(--accent2); }
   .big-stat.budget .big-stat-value { color: var(--blue); }
-
   .big-stat-sub { font-size: 10px; color: var(--muted); margin-top: 6px; }
 
-  /* SECTION GRID */
+  /* GRID */
   .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
   @media (max-width: 700px) { .grid-2 { grid-template-columns: 1fr; } }
 
@@ -215,10 +223,6 @@
     font-family: 'Playfair Display', serif;
     font-size: 14px; font-weight: 700;
     color: var(--accent2);
-  }
-
-  .card-total {
-    font-size: 13px; font-weight: 500;
   }
 
   /* ENTRY FORM */
@@ -266,14 +270,13 @@
     border-bottom: 1px solid var(--border);
   }
   .split-row:last-child { border-bottom: none; }
-
   .split-left { display: flex; align-items: center; gap: 10px; }
   .split-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
   .split-name { font-size: 12px; }
   .split-pct { font-size: 10px; color: var(--muted); margin-left: 4px; }
   .split-amount { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; }
 
-  /* PREVIOUS BALANCE */
+  /* PREV BALANCE */
   .prev-bal-box {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -313,11 +316,7 @@
   .tbl tr:hover td { background: rgba(255,255,255,0.02); }
   .empty { text-align: center; color: var(--muted); padding: 20px; }
 
-  .tag {
-    font-size: 9px; padding: 2px 7px;
-    border-radius: 3px; font-weight: 500;
-  }
-
+  .tag { font-size: 9px; padding: 2px 7px; border-radius: 3px; font-weight: 500; }
   .tag-green { background: rgba(76,175,125,0.12); color: var(--green); }
   .tag-red   { background: rgba(224,82,82,0.12);  color: var(--red); }
   .tag-blue  { background: rgba(91,155,213,0.12); color: var(--blue); }
@@ -351,7 +350,6 @@
 
     <button class="login-btn" onclick="login()">Sign In →</button>
     <div class="login-err" id="loginErr"></div>
-
   </div>
 </div>
 
@@ -366,19 +364,15 @@
     </div>
     <div class="header-right">
       <div class="user-tag">logged in as <span id="userDisplay"></span></div>
-      <button class="logout-btn" onclick="resetMonth()" 
-        style="border-color:#e8a020; color:#e8a020;">
-        ↓ End Month & Reset</button>
-      <button class="logout-btn" onclick="exportCSV()"
-        style="border-color:#4caf7d; color:#4caf7d;">
-        ↓ Export CSV</button>
-      <button class="logout-btn" onclick="logout()">← logout</button>
+      <button class="hbtn hbtn-csv"    onclick="exportCSV()">↓ Export CSV</button>
+      <button class="hbtn hbtn-reset"  onclick="resetMonth()">↺ End Month & Reset</button>
+      <button class="hbtn hbtn-logout" onclick="logout()">← logout</button>
     </div>
   </div>
 
   <div class="main">
 
-    <!-- Previous Month Balance -->
+    <!-- Previous Balance -->
     <div class="prev-bal-box">
       <div class="prev-bal-left">
         <strong>Previous Month Balance</strong>
@@ -412,7 +406,7 @@
 
     <!-- Profit Split -->
     <div class="card">
-      <div class="card-title" style="margin-bottom:16px;">📊 Profit Distribution (based on current profit)</div>
+      <div class="card-title" style="margin-bottom:16px;">📊 Profit Distribution</div>
       <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap:0 40px;">
         <div>
           <div style="font-size:9px; color:var(--muted); letter-spacing:0.12em; text-transform:uppercase; margin-bottom:6px;">External</div>
@@ -438,21 +432,21 @@
           <div class="split-row">
             <div class="split-left">
               <div class="split-dot" style="background:var(--green);"></div>
-              <span class="split-name">Owner 1</span>
+              <span class="split-name">Pijoy</span>
             </div>
             <div class="split-amount" style="color:var(--green);" id="o1Amt">RM 0.00</div>
           </div>
           <div class="split-row">
             <div class="split-left">
               <div class="split-dot" style="background:var(--green);"></div>
-              <span class="split-name">Owner 2</span>
+              <span class="split-name">Amir</span>
             </div>
             <div class="split-amount" style="color:var(--green);" id="o2Amt">RM 0.00</div>
           </div>
           <div class="split-row">
             <div class="split-left">
               <div class="split-dot" style="background:var(--green);"></div>
-              <span class="split-name">Owner 3</span>
+              <span class="split-name">Afiq</span>
             </div>
             <div class="split-amount" style="color:var(--green);" id="o3Amt">RM 0.00</div>
           </div>
@@ -462,11 +456,11 @@
 
     <div class="grid-2">
 
-      <!-- Daily Sales Entry -->
+      <!-- Daily Sales -->
       <div class="card">
         <div class="card-head">
-          <div class="card-title">📈 Daily Sales</div>
-          <div class="card-total" style="color:var(--green);" id="salesTotalTop">RM 0.00</div>
+          <div class="card-title">📈 Daily Sales & Profit</div>
+          <div style="color:var(--green); font-size:13px; font-weight:500;" id="salesTotalTop">RM 0.00</div>
         </div>
         <div class="entry-row">
           <div class="entry-group">
@@ -489,9 +483,7 @@
           </div>
         </div>
         <button class="btn btn-add" onclick="addSale()">+ Add Entry</button>
-
         <div class="divider"></div>
-
         <div style="overflow-x:auto;">
           <table class="tbl">
             <thead>
@@ -511,11 +503,11 @@
         </div>
       </div>
 
-      <!-- Modal / Expenses -->
+      <!-- Modal -->
       <div class="card">
         <div class="card-head">
           <div class="card-title">🛒 Modal / Purchases</div>
-          <div class="card-total" style="color:var(--red);" id="modalTotalTop">RM 0.00</div>
+          <div style="color:var(--red); font-size:13px; font-weight:500;" id="modalTotalTop">RM 0.00</div>
         </div>
         <div class="entry-row">
           <div class="entry-group">
@@ -535,16 +527,14 @@
           <div class="entry-group">
             <label class="entry-label">Bought by</label>
             <select class="entry-input" id="modalBy">
-              <option value="Owner 1">Owner 1</option>
-              <option value="Owner 2">Owner 2</option>
-              <option value="Owner 3">Owner 3</option>
+              <option value="Pijoy">Pijoy</option>
+              <option value="Amir">Amir</option>
+              <option value="Afiq">Afiq</option>
             </select>
           </div>
         </div>
         <button class="btn btn-add" onclick="addModal()">+ Add Purchase</button>
-
         <div class="divider"></div>
-
         <div style="overflow-x:auto;">
           <table class="tbl">
             <thead>
@@ -561,7 +551,6 @@
             </tbody>
           </table>
         </div>
-
         <div class="divider"></div>
         <div class="row-total">
           <span style="color:var(--muted);">Total Modal Spent</span>
@@ -570,7 +559,6 @@
       </div>
 
     </div>
-
   </div>
 </div>
 
@@ -585,18 +573,22 @@
   let prevBalance = parseFloat(localStorage.getItem('gb_prevbal') || '0')
 
   // ── HELPERS ──
-  const rm  = v => `RM ${Math.max(0,v).toFixed(2)}`
-  const sum = (arr, key) => arr.reduce((s,i) => s + i[key], 0)
+  const rm  = v => `RM ${Math.max(0, v).toFixed(2)}`
+  const sum = (arr, key) => arr.reduce((s, i) => s + i[key], 0)
 
   // ── PERIOD ──
   function getPeriod() {
     const now = new Date(), d = now.getDate()
     const m = now.getMonth(), y = now.getFullYear()
-    const sm = d >= 21 ? m : m-1, sy = d >= 21 ? y : (m===0?y-1:y)
-    const em = d >= 21 ? m+1 : m, ey = d >= 21 ? (m===11?y+1:y) : y
-    const s = new Date(sy, sm<0?11:sm, 21)
-    const e = new Date(ey, em>11?0:em, 20)
-    const fmt = d => d.toLocaleDateString('en-MY',{day:'numeric',month:'short',year:'numeric'})
+    const sm = d >= 21 ? m : m - 1
+    const sy = (sm < 0) ? y - 1 : y
+    const smFixed = (sm < 0) ? 11 : sm
+    const em = d >= 21 ? m + 1 : m
+    const ey = (em > 11) ? y + 1 : y
+    const emFixed = (em > 11) ? 0 : em
+    const s = new Date(sy, smFixed, 21)
+    const e = new Date(ey, emFixed, 20)
+    const fmt = dt => dt.toLocaleDateString('en-MY', { day:'numeric', month:'short', year:'numeric' })
     return `${fmt(s)} – ${fmt(e)}`
   }
 
@@ -630,24 +622,22 @@
     document.getElementById('loginErr').textContent = ''
   }
 
-  // ── SAVE PREV BALANCE ──
+  // ── PREV BALANCE ──
   function savePrevBalance() {
     prevBalance = parseFloat(document.getElementById('prevBalance').value) || 0
     localStorage.setItem('gb_prevbal', prevBalance)
     render()
   }
 
-  // ── ADD SALE + PROFIT ──
+  // ── ADD SALE ──
   function addSale() {
     const date   = document.getElementById('saleDate').value
     const sale   = parseFloat(document.getElementById('saleAmt').value)
     const profit = parseFloat(document.getElementById('profitAmt').value)
     const note   = document.getElementById('saleNote').value.trim()
-
     if (!date || isNaN(sale) || sale <= 0 || isNaN(profit) || profit < 0) {
       alert('Please enter a valid date, sales amount and profit!'); return
     }
-
     sales.push({ id: Date.now(), date, sale, profit, note, by: currentUser })
     localStorage.setItem('gb_sales', JSON.stringify(sales))
     document.getElementById('saleAmt').value   = ''
@@ -662,11 +652,9 @@
     const item  = document.getElementById('modalItem').value.trim()
     const price = parseFloat(document.getElementById('modalPrice').value)
     const by    = document.getElementById('modalBy').value
-
     if (!date || !item || isNaN(price) || price <= 0) {
       alert('Please fill in all purchase fields!'); return
     }
-
     modals.push({ id: Date.now(), date, item, price, by })
     localStorage.setItem('gb_modals', JSON.stringify(modals))
     document.getElementById('modalItem').value  = ''
@@ -689,38 +677,110 @@
     render()
   }
 
+  // ── EXPORT CSV ──
+  function exportCSV() {
+    const period      = getPeriod()
+    const totalSales  = sum(sales, 'sale')
+    const totalProfit = sum(sales, 'profit')
+    const totalModal  = sum(modals, 'price')
+    const remaining   = prevBalance + totalSales - totalProfit - totalModal
+    const company     = totalProfit * 0.20
+    const investor    = totalProfit * 0.10
+    const perOwner    = (totalProfit * 0.70) / 3
+
+    let csv = `GarisBawah Coffee — Monthly Report\n`
+    csv    += `Period:,${period}\n`
+    csv    += `Previous Balance:,RM ${prevBalance.toFixed(2)}\n\n`
+
+    csv += `DAILY SALES & PROFIT\n`
+    csv += `Date,Sales (RM),Profit (RM),Note,Entered By\n`
+    sales.forEach(s => {
+      csv += `${s.date},${s.sale.toFixed(2)},${s.profit.toFixed(2)},"${s.note || ''}",${s.by}\n`
+    })
+    csv += `TOTAL,${totalSales.toFixed(2)},${totalProfit.toFixed(2)}\n\n`
+
+    csv += `MODAL / PURCHASES\n`
+    csv += `Date,Item,Price (RM),Bought By\n`
+    modals.forEach(m => {
+      csv += `${m.date},"${m.item}",${m.price.toFixed(2)},${m.by}\n`
+    })
+    csv += `TOTAL,,${totalModal.toFixed(2)}\n\n`
+
+    csv += `SUMMARY\n`
+    csv += `Total Sales,RM ${totalSales.toFixed(2)}\n`
+    csv += `Total Profit,RM ${totalProfit.toFixed(2)}\n`
+    csv += `Total Modal,RM ${totalModal.toFixed(2)}\n`
+    csv += `Remaining Budget,RM ${remaining.toFixed(2)}\n\n`
+
+    csv += `PROFIT DISTRIBUTION\n`
+    csv += `Company (20%),RM ${company.toFixed(2)}\n`
+    csv += `Investor (10%),RM ${investor.toFixed(2)}\n`
+    csv += `Pijoy (23.33%),RM ${perOwner.toFixed(2)}\n`
+    csv += `Amir (23.33%),RM ${perOwner.toFixed(2)}\n`
+    csv += `Afiq (23.33%),RM ${perOwner.toFixed(2)}\n`
+
+    const blob = new Blob([csv], { type: 'text/csv' })
+    const url  = URL.createObjectURL(blob)
+    const a    = document.createElement('a')
+    a.href     = url
+    a.download = `GBC_Report_${new Date().toISOString().split('T')[0]}.csv`
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
+  // ── RESET MONTH ──
+  function resetMonth() {
+    if (!confirm('⚠️ This will:\n1. Download the CSV report\n2. Clear all entries\n3. Carry remaining budget to next month\n\nAre you sure?')) return
+
+    // Download CSV first
+    exportCSV()
+
+    // Calculate remaining to carry over
+    const totalSales  = sum(sales, 'sale')
+    const totalProfit = sum(sales, 'profit')
+    const totalModal  = sum(modals, 'price')
+    const remaining   = prevBalance + totalSales - totalProfit - totalModal
+
+    // Carry over remaining as new previous balance
+    prevBalance = Math.max(0, remaining)
+    localStorage.setItem('gb_prevbal', prevBalance)
+
+    // Clear all entries
+    sales  = []
+    modals = []
+    localStorage.setItem('gb_sales',  JSON.stringify(sales))
+    localStorage.setItem('gb_modals', JSON.stringify(modals))
+
+    // Update UI
+    document.getElementById('prevBalance').value = prevBalance
+    render()
+
+    alert(`✅ Month reset complete!\nNew previous balance: RM ${prevBalance.toFixed(2)}`)
+  }
+
   // ── RENDER ──
   function render() {
     const totalSales  = sum(sales, 'sale')
     const totalProfit = sum(sales, 'profit')
     const totalModal  = sum(modals, 'price')
+    const remaining   = prevBalance + totalSales - totalProfit - totalModal
+    const company     = totalProfit * 0.20
+    const investor    = totalProfit * 0.10
+    const perOwner    = (totalProfit * 0.70) / 3
 
-    // Remaining budget = prev balance + sales - profit - modal
-    const remaining = prevBalance + totalSales - totalProfit - totalModal
-
-    // Profit split
-    const company  = totalProfit * 0.20
-    const investor = totalProfit * 0.10
-    const perOwner = (totalProfit * 0.70) / 3
-
-    // Big stats
-    document.getElementById('statSales').textContent    = rm(totalSales)
-    document.getElementById('statSalesSub').textContent = `${sales.length} entr${sales.length===1?'y':'ies'} this period`
-    document.getElementById('statProfit').textContent   = rm(totalProfit)
-    document.getElementById('statProfitSub').textContent= `${sales.length} entr${sales.length===1?'y':'ies'} this period`
-    document.getElementById('statBudget').textContent   = rm(remaining)
-
-    // Profit split
-    document.getElementById('companyAmt').textContent  = rm(company)
-    document.getElementById('investorAmt').textContent = rm(investor)
-    document.getElementById('o1Amt').textContent       = rm(perOwner)
-    document.getElementById('o2Amt').textContent       = rm(perOwner)
-    document.getElementById('o3Amt').textContent       = rm(perOwner)
-
-    // Totals
-    document.getElementById('salesTotalTop').textContent  = rm(totalSales)
-    document.getElementById('modalTotalTop').textContent  = rm(totalModal)
-    document.getElementById('modalTotalBot').textContent  = rm(totalModal)
+    document.getElementById('statSales').textContent     = rm(totalSales)
+    document.getElementById('statSalesSub').textContent  = `${sales.length} entr${sales.length===1?'y':'ies'} this period`
+    document.getElementById('statProfit').textContent    = rm(totalProfit)
+    document.getElementById('statProfitSub').textContent = `${sales.length} entr${sales.length===1?'y':'ies'} this period`
+    document.getElementById('statBudget').textContent    = rm(remaining)
+    document.getElementById('companyAmt').textContent    = rm(company)
+    document.getElementById('investorAmt').textContent   = rm(investor)
+    document.getElementById('o1Amt').textContent         = rm(perOwner)
+    document.getElementById('o2Amt').textContent         = rm(perOwner)
+    document.getElementById('o3Amt').textContent         = rm(perOwner)
+    document.getElementById('salesTotalTop').textContent = rm(totalSales)
+    document.getElementById('modalTotalTop').textContent = rm(totalModal)
+    document.getElementById('modalTotalBot').textContent = rm(totalModal)
 
     // Sales table
     const st = document.getElementById('salesTbl')
@@ -748,93 +808,6 @@
           <td><span class="tag tag-red">${m.by}</span></td>
           <td><button class="btn btn-del" onclick="delModal(${m.id})">✕</button></td>
         </tr>`).join('')
-  }
-
-  function resetMonth() {
-  if (!confirm('This will download the CSV report and reset all data for the new month. Are you sure?')) return
-
-  // Step 1 — Download CSV
-  exportCSV()
-
-  // Step 2 — Carry remaining budget to previous balance
-  const totalSales  = sum(sales, 'sale')
-  const totalProfit = sum(sales, 'profit')
-  const totalModal  = sum(modals, 'price')
-  const remaining   = prevBalance + totalSales - totalProfit - totalModal
-
-  // Step 3 — Save remaining as new previous balance
-  prevBalance = remaining
-  localStorage.setItem('gb_prevbal', prevBalance)
-
-  // Step 4 — Clear sales and modals
-  sales  = []
-  modals = []
-  localStorage.setItem('gb_sales',  JSON.stringify(sales))
-  localStorage.setItem('gb_modals', JSON.stringify(modals))
-
-  // Step 5 — Update UI
-  document.getElementById('prevBalance').value = prevBalance
-  render()
-
-  alert('✅ Month reset complete! Previous balance carried over: RM ' + prevBalance.toFixed(2))
-}
-
-function exportCSV() {
-  const period = getPeriod()
-
-  // Build CSV content
-  let csv = `GarisBawah Coffee — Monthly Report\n`
-  csv    += `Period:,${period}\n`
-  csv    += `Previous Balance:,${prevBalance.toFixed(2)}\n\n`
-
-  // Sales section
-  csv += `DAILY SALES & PROFIT\n`
-  csv += `Date,Sales (RM),Profit (RM),Note,Entered By\n`
-  sales.forEach(s => {
-    csv += `${s.date},${s.sale.toFixed(2)},${s.profit.toFixed(2)},"${s.note||''}",${s.by}\n`
-  })
-
-  const totalSales  = sum(sales, 'sale')
-  const totalProfit = sum(sales, 'profit')
-  csv += `TOTAL,${totalSales.toFixed(2)},${totalProfit.toFixed(2)}\n\n`
-
-  // Modal section
-  csv += `MODAL / PURCHASES\n`
-  csv += `Date,Item,Price (RM),Bought By\n`
-  modals.forEach(m => {
-    csv += `${m.date},"${m.item}",${m.price.toFixed(2)},${m.by}\n`
-  })
-
-  const totalModal = sum(modals, 'price')
-  csv += `TOTAL,,${totalModal.toFixed(2)}\n\n`
-
-  // Summary
-  const remaining = prevBalance + totalSales - totalProfit - totalModal
-  const company   = totalProfit * 0.20
-  const investor  = totalProfit * 0.10
-  const perOwner  = (totalProfit * 0.70) / 3
-
-  csv += `SUMMARY\n`
-  csv += `Total Sales,${totalSales.toFixed(2)}\n`
-  csv += `Total Profit,${totalProfit.toFixed(2)}\n`
-  csv += `Total Modal,${totalModal.toFixed(2)}\n`
-  csv += `Remaining Budget,${remaining.toFixed(2)}\n\n`
-
-  csv += `PROFIT DISTRIBUTION\n`
-  csv += `Company (20%),${company.toFixed(2)}\n`
-  csv += `Investor (10%),${investor.toFixed(2)}\n`
-  csv += `Owner 1 - Pijoy (23.33%),${perOwner.toFixed(2)}\n`
-  csv += `Owner 2 - Amir (23.33%),${perOwner.toFixed(2)}\n`
-  csv += `Owner 3 - Afiq (23.33%),${perOwner.toFixed(2)}\n`
-
-  // Download the file
-  const blob = new Blob([csv], { type: 'text/csv' })
-  const url  = URL.createObjectURL(blob)
-  const a    = document.createElement('a')
-  a.href     = url
-  a.download = `GBC_Report_${new Date().toISOString().split('T')[0]}.csv`
-  a.click()
-  URL.revokeObjectURL(url)
   }
 </script>
 </body>
