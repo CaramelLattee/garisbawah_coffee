@@ -47,32 +47,23 @@
     animation: fadeUp 0.6s ease both;
   }
 
-  .login-logo {
-    font-size: 52px; margin-bottom: 16px;
-    filter: drop-shadow(0 0 20px rgba(200,134,10,0.4));
-  }
-
+  .login-logo { font-size: 52px; margin-bottom: 16px; }
   .login-brand {
     font-family: 'Playfair Display', serif;
     font-size: 22px; font-weight: 900;
-    color: var(--accent2);
-    letter-spacing: -0.5px;
-    margin-bottom: 4px;
+    color: var(--accent2); margin-bottom: 4px;
   }
-
   .login-sub {
     font-size: 10px; color: var(--muted);
     letter-spacing: 0.2em; text-transform: uppercase;
     margin-bottom: 36px;
   }
-
   .field-label {
     display: block; text-align: left;
     font-size: 9px; color: var(--muted);
     letter-spacing: 0.15em; text-transform: uppercase;
     margin-bottom: 6px;
   }
-
   .field-input {
     width: 100%; padding: 12px 16px;
     background: var(--card);
@@ -82,9 +73,7 @@
     font-size: 14px; margin-bottom: 14px;
     outline: none; transition: border-color 0.2s;
   }
-
   .field-input:focus { border-color: var(--accent); }
-
   .login-btn {
     width: 100%; padding: 14px;
     background: var(--accent); color: #000;
@@ -92,9 +81,7 @@
     font-family: 'DM Mono', monospace;
     font-size: 13px; font-weight: 500;
     cursor: pointer; transition: all 0.2s;
-    letter-spacing: 0.05em;
   }
-
   .login-btn:hover { background: var(--accent2); }
   .login-err { color: var(--red); font-size: 11px; margin-top: 10px; min-height: 16px; }
 
@@ -112,29 +99,20 @@
     position: sticky; top: 0; z-index: 10;
     flex-wrap: wrap; gap: 10px;
   }
-
   .brand {
     font-family: 'Playfair Display', serif;
     font-size: 18px; font-weight: 900;
     color: var(--accent2);
   }
-
-  .period-tag {
-    font-size: 10px; color: var(--muted);
-    letter-spacing: 0.1em; margin-top: 2px;
-  }
-
+  .period-tag { font-size: 10px; color: var(--muted); margin-top: 2px; }
   .header-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-
   .user-tag {
     font-size: 11px; color: var(--muted);
     background: var(--card);
     border: 1px solid var(--border);
     padding: 5px 12px; border-radius: 4px;
   }
-
   .user-tag span { color: var(--accent2); }
-
   .hbtn {
     padding: 6px 12px; background: transparent;
     border: 1px solid var(--border); border-radius: 4px;
@@ -142,18 +120,53 @@
     font-size: 11px; cursor: pointer; transition: all 0.2s;
     white-space: nowrap;
   }
-
   .hbtn-csv    { color: var(--green);  border-color: var(--green); }
   .hbtn-csv:hover { background: var(--green); color: #000; }
-
   .hbtn-reset  { color: var(--accent2); border-color: var(--accent2); }
   .hbtn-reset:hover { background: var(--accent2); color: #000; }
-
   .hbtn-logout { color: var(--muted); }
   .hbtn-logout:hover { border-color: var(--red); color: var(--red); }
 
+  /* LOADING OVERLAY */
+  .loading-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.7);
+    display: none; align-items: center; justify-content: center;
+    z-index: 200; flex-direction: column; gap: 12px;
+  }
+  .loading-overlay.show { display: flex; }
+  .spinner {
+    width: 36px; height: 36px;
+    border: 3px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  .loading-text { font-size: 12px; color: var(--muted); }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
   /* MAIN */
   .main { max-width: 1100px; margin: 0 auto; padding: 24px 20px 60px; }
+
+  /* SYNC STATUS */
+  .sync-bar {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 14px;
+    margin-bottom: 16px;
+    display: flex; align-items: center;
+    justify-content: space-between;
+    font-size: 11px;
+  }
+  .sync-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    display: inline-block; margin-right: 6px;
+  }
+  .sync-dot.green { background: var(--green); }
+  .sync-dot.red   { background: var(--red); }
+  .sync-dot.yellow { background: var(--accent2); animation: pulse 1s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
   /* BIG 3 STATS */
   .big-stats {
@@ -161,7 +174,6 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 12px; margin-bottom: 20px;
   }
-
   @media (max-width: 640px) { .big-stats { grid-template-columns: 1fr; } }
 
   .big-stat {
@@ -171,31 +183,23 @@
     padding: 20px 22px;
     position: relative; overflow: hidden;
   }
-
   .big-stat::after {
-    content: '';
-    position: absolute;
+    content: ''; position: absolute;
     bottom: 0; left: 0; right: 0; height: 3px;
   }
-
   .big-stat.sales::after  { background: var(--green); }
   .big-stat.profit::after { background: var(--accent); }
   .big-stat.budget::after { background: var(--blue); }
-
   .big-stat-icon { font-size: 20px; margin-bottom: 10px; }
-
   .big-stat-label {
     font-size: 9px; color: var(--muted);
     letter-spacing: 0.15em; text-transform: uppercase;
     margin-bottom: 6px;
   }
-
   .big-stat-value {
     font-family: 'Playfair Display', serif;
-    font-size: 32px; font-weight: 700;
-    line-height: 1;
+    font-size: 32px; font-weight: 700; line-height: 1;
   }
-
   .big-stat.sales  .big-stat-value { color: var(--green); }
   .big-stat.profit .big-stat-value { color: var(--accent2); }
   .big-stat.budget .big-stat-value { color: var(--blue); }
@@ -210,42 +214,33 @@
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 16px;
+    padding: 20px; margin-bottom: 16px;
   }
-
   .card-head {
     display: flex; justify-content: space-between;
     align-items: center; margin-bottom: 16px;
   }
-
   .card-title {
     font-family: 'Playfair Display', serif;
-    font-size: 14px; font-weight: 700;
-    color: var(--accent2);
+    font-size: 14px; font-weight: 700; color: var(--accent2);
   }
 
-  /* ENTRY FORM */
+  /* FORM */
   .entry-row { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
   .entry-group { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 110px; }
-
   .entry-label {
     font-size: 9px; color: var(--muted);
     letter-spacing: 0.1em; text-transform: uppercase;
   }
-
   .entry-input {
     padding: 8px 12px;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 6px; color: var(--text);
     font-family: 'DM Mono', monospace;
-    font-size: 12px; outline: none;
-    transition: border-color 0.2s;
+    font-size: 12px; outline: none; transition: border-color 0.2s;
   }
-
   .entry-input:focus { border-color: var(--accent); }
-
   .btn {
     padding: 8px 18px; border: none;
     border-radius: 6px; cursor: pointer;
@@ -253,7 +248,6 @@
     font-size: 12px; font-weight: 500;
     transition: all 0.2s; white-space: nowrap;
   }
-
   .btn-add { background: var(--accent); color: #000; }
   .btn-add:hover { background: var(--accent2); }
   .btn-del {
@@ -281,16 +275,13 @@
     background: var(--surface);
     border: 1px solid var(--border);
     border-left: 3px solid var(--blue);
-    border-radius: 8px;
-    padding: 16px 18px;
+    border-radius: 8px; padding: 16px 18px;
     margin-bottom: 16px;
     display: flex; align-items: center;
     justify-content: space-between; flex-wrap: wrap; gap: 12px;
   }
-
   .prev-bal-left { font-size: 11px; color: var(--muted); }
   .prev-bal-left strong { display: block; color: var(--text); font-size: 13px; margin-bottom: 2px; }
-
   .prev-bal-input {
     padding: 8px 14px;
     background: var(--card);
@@ -301,7 +292,6 @@
     outline: none; width: 160px; text-align: right;
     transition: border-color 0.2s;
   }
-
   .prev-bal-input:focus { border-color: var(--blue); }
 
   /* TABLE */
@@ -315,23 +305,23 @@
   .tbl tr:last-child td { border-bottom: none; }
   .tbl tr:hover td { background: rgba(255,255,255,0.02); }
   .empty { text-align: center; color: var(--muted); padding: 20px; }
-
   .tag { font-size: 9px; padding: 2px 7px; border-radius: 3px; font-weight: 500; }
   .tag-green { background: rgba(76,175,125,0.12); color: var(--green); }
   .tag-red   { background: rgba(224,82,82,0.12);  color: var(--red); }
   .tag-blue  { background: rgba(91,155,213,0.12); color: var(--blue); }
-
   .divider { height: 1px; background: var(--border); margin: 12px 0; }
-
-  .row-total {
-    display: flex; justify-content: space-between;
-    font-size: 12px; padding-top: 4px;
-  }
+  .row-total { display: flex; justify-content: space-between; font-size: 12px; padding-top: 4px; }
 
   @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 </head>
 <body>
+
+<!-- LOADING OVERLAY -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="spinner"></div>
+  <div class="loading-text" id="loadingText">Syncing with Google Sheets...</div>
+</div>
 
 <!-- LOGIN -->
 <div class="login-screen" id="loginScreen">
@@ -339,15 +329,12 @@
     <div class="login-logo">☕</div>
     <div class="login-brand">GarisBawah Coffee</div>
     <div class="login-sub">Business Dashboard · Owner Access Only</div>
-
     <label class="field-label">Username</label>
     <input class="field-input" type="text" id="loginUser" placeholder="enter username"
       onkeydown="if(event.key==='Enter') document.getElementById('loginPass').focus()" />
-
     <label class="field-label">Password</label>
     <input class="field-input" type="password" id="loginPass" placeholder="enter password"
       onkeydown="if(event.key==='Enter') login()" />
-
     <button class="login-btn" onclick="login()">Sign In →</button>
     <div class="login-err" id="loginErr"></div>
   </div>
@@ -356,7 +343,6 @@
 <!-- APP -->
 <div class="app" id="mainApp">
 
-  <!-- Header -->
   <div class="header">
     <div>
       <div class="brand">☕ GarisBawah Coffee</div>
@@ -372,6 +358,15 @@
 
   <div class="main">
 
+    <!-- Sync Status -->
+    <div class="sync-bar">
+      <div>
+        <span class="sync-dot" id="syncDot"></span>
+        <span id="syncStatus">Connecting to Google Sheets...</span>
+      </div>
+      <button class="hbtn" onclick="loadData()" style="font-size:10px; padding:4px 10px;">↻ Refresh</button>
+    </div>
+
     <!-- Previous Balance -->
     <div class="prev-bal-box">
       <div class="prev-bal-left">
@@ -379,7 +374,7 @@
         Carried over from last period — auto-added to remaining budget
       </div>
       <input class="prev-bal-input" type="number" id="prevBalance"
-        placeholder="0.00" step="0.01" min="0" oninput="savePrevBalance()" />
+        placeholder="0.00" step="0.01" min="0" onchange="savePrevBalance()" />
     </div>
 
     <!-- Big 3 Stats -->
@@ -487,17 +482,10 @@
         <div style="overflow-x:auto;">
           <table class="tbl">
             <thead>
-              <tr>
-                <th>Date</th>
-                <th>Sales</th>
-                <th>Profit</th>
-                <th>Note</th>
-                <th>By</th>
-                <th></th>
-              </tr>
+              <tr><th>Date</th><th>Sales</th><th>Profit</th><th>Note</th><th>By</th><th></th></tr>
             </thead>
             <tbody id="salesTbl">
-              <tr><td colspan="6" class="empty">No entries yet</td></tr>
+              <tr><td colspan="6" class="empty">Loading...</td></tr>
             </tbody>
           </table>
         </div>
@@ -538,16 +526,10 @@
         <div style="overflow-x:auto;">
           <table class="tbl">
             <thead>
-              <tr>
-                <th>Date</th>
-                <th>Item</th>
-                <th>Price</th>
-                <th>By</th>
-                <th></th>
-              </tr>
+              <tr><th>Date</th><th>Item</th><th>Price</th><th>By</th><th></th></tr>
             </thead>
             <tbody id="modalTbl">
-              <tr><td colspan="5" class="empty">No purchases yet</td></tr>
+              <tr><td colspan="5" class="empty">Loading...</td></tr>
             </tbody>
           </table>
         </div>
@@ -563,33 +545,83 @@
 </div>
 
 <script>
-  // ── USERS ──
+  // ── CONFIG ──
+  const API = 'https://script.google.com/macros/s/AKfycbzFeSPxiq3YFuRIsh2roqLcPipFT8qYxOzMPrRkxE3PSUr8L8jaFYr1pZys4I8v6N8/exec'
+
+  // ── USERS (local only — never sent to server) ──
   const USERS = { Pijoy:'GBC2025', Amir:'GBC2025', Afiq:'GBC2025' }
   let currentUser = null
 
-  // ── DATA ──
-  let sales       = JSON.parse(localStorage.getItem('gb_sales')   || '[]')
-  let modals      = JSON.parse(localStorage.getItem('gb_modals')  || '[]')
-  let prevBalance = parseFloat(localStorage.getItem('gb_prevbal') || '0')
+  // ── LOCAL STATE ──
+  let sales       = []
+  let modals      = []
+  let prevBalance = 0
 
   // ── HELPERS ──
   const rm  = v => `RM ${Math.max(0, v).toFixed(2)}`
-  const sum = (arr, key) => arr.reduce((s, i) => s + i[key], 0)
+  const sum = (arr, key) => arr.reduce((s, i) => s + Number(i[key] || 0), 0)
+
+  function showLoading(text = 'Syncing...') {
+    document.getElementById('loadingText').textContent = text
+    document.getElementById('loadingOverlay').classList.add('show')
+  }
+
+  function hideLoading() {
+    document.getElementById('loadingOverlay').classList.remove('show')
+  }
+
+  function setSyncStatus(status, msg) {
+    const dot = document.getElementById('syncDot')
+    dot.className = `sync-dot ${status}`
+    document.getElementById('syncStatus').textContent = msg
+  }
 
   // ── PERIOD ──
   function getPeriod() {
     const now = new Date(), d = now.getDate()
     const m = now.getMonth(), y = now.getFullYear()
     const sm = d >= 21 ? m : m - 1
-    const sy = (sm < 0) ? y - 1 : y
-    const smFixed = (sm < 0) ? 11 : sm
+    const sy = sm < 0 ? y - 1 : y
+    const smF = sm < 0 ? 11 : sm
     const em = d >= 21 ? m + 1 : m
-    const ey = (em > 11) ? y + 1 : y
-    const emFixed = (em > 11) ? 0 : em
-    const s = new Date(sy, smFixed, 21)
-    const e = new Date(ey, emFixed, 20)
+    const ey = em > 11 ? y + 1 : y
+    const emF = em > 11 ? 0 : em
+    const s = new Date(sy, smF, 21)
+    const e = new Date(ey, emF, 20)
     const fmt = dt => dt.toLocaleDateString('en-MY', { day:'numeric', month:'short', year:'numeric' })
     return `${fmt(s)} – ${fmt(e)}`
+  }
+
+  // ── API CALL ──
+  async function apiGet(params) {
+    const url = API + '?' + new URLSearchParams(params)
+    const res = await fetch(url)
+    return res.json()
+  }
+
+  async function apiPost(action, data) {
+    const url = API + '?action=' + action
+    const res = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(data)
+    })
+    return res.json()
+  }
+
+  // ── LOAD DATA FROM GOOGLE SHEETS ──
+  async function loadData() {
+    setSyncStatus('yellow', 'Syncing with Google Sheets...')
+    try {
+      const data = await apiGet({ action: 'getData' })
+      sales       = data.sales   || []
+      modals      = data.modals  || []
+      prevBalance = Number(data.prevBalance) || 0
+      document.getElementById('prevBalance').value = prevBalance > 0 ? prevBalance : ''
+      render()
+      setSyncStatus('green', `Synced · ${new Date().toLocaleTimeString('en-MY')}`)
+    } catch (err) {
+      setSyncStatus('red', 'Sync failed — check connection')
+    }
   }
 
   // ── LOGIN ──
@@ -605,8 +637,7 @@
       const today = new Date().toISOString().split('T')[0]
       document.getElementById('saleDate').value  = today
       document.getElementById('modalDate').value = today
-      document.getElementById('prevBalance').value = prevBalance > 0 ? prevBalance : ''
-      render()
+      loadData()
     } else {
       document.getElementById('loginErr').textContent = 'Wrong username or password.'
       document.getElementById('loginPass').value = ''
@@ -622,64 +653,94 @@
     document.getElementById('loginErr').textContent = ''
   }
 
-  // ── PREV BALANCE ──
-  function savePrevBalance() {
+  // ── SAVE PREV BALANCE ──
+  async function savePrevBalance() {
     prevBalance = parseFloat(document.getElementById('prevBalance').value) || 0
-    localStorage.setItem('gb_prevbal', prevBalance)
-    render()
+    try {
+      await apiGet({ action: 'updatePrevBalance', value: prevBalance })
+      render()
+    } catch (e) { alert('Failed to save. Check connection.') }
   }
 
   // ── ADD SALE ──
-  function addSale() {
+  async function addSale() {
     const date   = document.getElementById('saleDate').value
     const sale   = parseFloat(document.getElementById('saleAmt').value)
     const profit = parseFloat(document.getElementById('profitAmt').value)
     const note   = document.getElementById('saleNote').value.trim()
+
     if (!date || isNaN(sale) || sale <= 0 || isNaN(profit) || profit < 0) {
       alert('Please enter a valid date, sales amount and profit!'); return
     }
-    sales.push({ id: Date.now(), date, sale, profit, note, by: currentUser })
-    localStorage.setItem('gb_sales', JSON.stringify(sales))
-    document.getElementById('saleAmt').value   = ''
-    document.getElementById('profitAmt').value = ''
-    document.getElementById('saleNote').value  = ''
-    render()
+
+    const entry = { id: Date.now(), date, sale, profit, note, by: currentUser }
+    showLoading('Saving to Google Sheets...')
+    try {
+      await apiPost('addSale', entry)
+      sales.push(entry)
+      document.getElementById('saleAmt').value   = ''
+      document.getElementById('profitAmt').value = ''
+      document.getElementById('saleNote').value  = ''
+      render()
+      setSyncStatus('green', `Saved · ${new Date().toLocaleTimeString('en-MY')}`)
+    } catch (e) {
+      alert('Failed to save. Check connection.')
+    } finally { hideLoading() }
   }
 
   // ── ADD MODAL ──
-  function addModal() {
+  async function addModal() {
     const date  = document.getElementById('modalDate').value
     const item  = document.getElementById('modalItem').value.trim()
     const price = parseFloat(document.getElementById('modalPrice').value)
     const by    = document.getElementById('modalBy').value
+
     if (!date || !item || isNaN(price) || price <= 0) {
       alert('Please fill in all purchase fields!'); return
     }
-    modals.push({ id: Date.now(), date, item, price, by })
-    localStorage.setItem('gb_modals', JSON.stringify(modals))
-    document.getElementById('modalItem').value  = ''
-    document.getElementById('modalPrice').value = ''
-    render()
+
+    const entry = { id: Date.now(), date, item, price, by }
+    showLoading('Saving to Google Sheets...')
+    try {
+      await apiPost('addModal', entry)
+      modals.push(entry)
+      document.getElementById('modalItem').value  = ''
+      document.getElementById('modalPrice').value = ''
+      render()
+      setSyncStatus('green', `Saved · ${new Date().toLocaleTimeString('en-MY')}`)
+    } catch (e) {
+      alert('Failed to save. Check connection.')
+    } finally { hideLoading() }
   }
 
-  // ── DELETE ──
-  function delSale(id) {
+  // ── DELETE SALE ──
+  async function delSale(id) {
     if (!confirm('Delete this entry?')) return
-    sales = sales.filter(s => s.id !== id)
-    localStorage.setItem('gb_sales', JSON.stringify(sales))
-    render()
+    showLoading('Deleting...')
+    try {
+      await apiGet({ action: 'deleteSale', id })
+      sales = sales.filter(s => String(s.id) !== String(id))
+      render()
+      setSyncStatus('green', `Deleted · ${new Date().toLocaleTimeString('en-MY')}`)
+    } catch (e) { alert('Failed to delete.') }
+    finally { hideLoading() }
   }
 
-  function delModal(id) {
+  // ── DELETE MODAL ──
+  async function delModal(id) {
     if (!confirm('Delete this purchase?')) return
-    modals = modals.filter(m => m.id !== id)
-    localStorage.setItem('gb_modals', JSON.stringify(modals))
-    render()
+    showLoading('Deleting...')
+    try {
+      await apiGet({ action: 'deleteModal', id })
+      modals = modals.filter(m => String(m.id) !== String(id))
+      render()
+      setSyncStatus('green', `Deleted · ${new Date().toLocaleTimeString('en-MY')}`)
+    } catch (e) { alert('Failed to delete.') }
+    finally { hideLoading() }
   }
 
   // ── EXPORT CSV ──
   function exportCSV() {
-    const period      = getPeriod()
     const totalSales  = sum(sales, 'sale')
     const totalProfit = sum(sales, 'profit')
     const totalModal  = sum(modals, 'price')
@@ -689,29 +750,25 @@
     const perOwner    = (totalProfit * 0.70) / 3
 
     let csv = `GarisBawah Coffee — Monthly Report\n`
-    csv    += `Period:,${period}\n`
+    csv    += `Period:,${getPeriod()}\n`
     csv    += `Previous Balance:,RM ${prevBalance.toFixed(2)}\n\n`
-
-    csv += `DAILY SALES & PROFIT\n`
-    csv += `Date,Sales (RM),Profit (RM),Note,Entered By\n`
+    csv    += `DAILY SALES & PROFIT\n`
+    csv    += `Date,Sales (RM),Profit (RM),Note,Entered By\n`
     sales.forEach(s => {
-      csv += `${s.date},${s.sale.toFixed(2)},${s.profit.toFixed(2)},"${s.note || ''}",${s.by}\n`
+      csv += `${s.date},${Number(s.sale).toFixed(2)},${Number(s.profit).toFixed(2)},"${s.note||''}",${s.by}\n`
     })
     csv += `TOTAL,${totalSales.toFixed(2)},${totalProfit.toFixed(2)}\n\n`
-
     csv += `MODAL / PURCHASES\n`
     csv += `Date,Item,Price (RM),Bought By\n`
     modals.forEach(m => {
-      csv += `${m.date},"${m.item}",${m.price.toFixed(2)},${m.by}\n`
+      csv += `${m.date},"${m.item}",${Number(m.price).toFixed(2)},${m.by}\n`
     })
     csv += `TOTAL,,${totalModal.toFixed(2)}\n\n`
-
     csv += `SUMMARY\n`
     csv += `Total Sales,RM ${totalSales.toFixed(2)}\n`
     csv += `Total Profit,RM ${totalProfit.toFixed(2)}\n`
     csv += `Total Modal,RM ${totalModal.toFixed(2)}\n`
     csv += `Remaining Budget,RM ${remaining.toFixed(2)}\n\n`
-
     csv += `PROFIT DISTRIBUTION\n`
     csv += `Company (20%),RM ${company.toFixed(2)}\n`
     csv += `Investor (10%),RM ${investor.toFixed(2)}\n`
@@ -722,40 +779,36 @@
     const blob = new Blob([csv], { type: 'text/csv' })
     const url  = URL.createObjectURL(blob)
     const a    = document.createElement('a')
-    a.href     = url
+    a.href = url
     a.download = `GBC_Report_${new Date().toISOString().split('T')[0]}.csv`
     a.click()
     URL.revokeObjectURL(url)
   }
 
   // ── RESET MONTH ──
-  function resetMonth() {
+  async function resetMonth() {
     if (!confirm('⚠️ This will:\n1. Download the CSV report\n2. Clear all entries\n3. Carry remaining budget to next month\n\nAre you sure?')) return
 
-    // Download CSV first
     exportCSV()
 
-    // Calculate remaining to carry over
     const totalSales  = sum(sales, 'sale')
     const totalProfit = sum(sales, 'profit')
     const totalModal  = sum(modals, 'price')
-    const remaining   = prevBalance + totalSales - totalProfit - totalModal
+    const remaining   = Math.max(0, prevBalance + totalSales - totalProfit - totalModal)
 
-    // Carry over remaining as new previous balance
-    prevBalance = Math.max(0, remaining)
-    localStorage.setItem('gb_prevbal', prevBalance)
-
-    // Clear all entries
-    sales  = []
-    modals = []
-    localStorage.setItem('gb_sales',  JSON.stringify(sales))
-    localStorage.setItem('gb_modals', JSON.stringify(modals))
-
-    // Update UI
-    document.getElementById('prevBalance').value = prevBalance
-    render()
-
-    alert(`✅ Month reset complete!\nNew previous balance: RM ${prevBalance.toFixed(2)}`)
+    showLoading('Resetting month...')
+    try {
+      await apiPost('resetMonth', { newBalance: remaining })
+      sales       = []
+      modals      = []
+      prevBalance = remaining
+      document.getElementById('prevBalance').value = prevBalance
+      render()
+      setSyncStatus('green', `Month reset · ${new Date().toLocaleTimeString('en-MY')}`)
+      alert(`✅ Month reset complete!\nNew previous balance: RM ${remaining.toFixed(2)}`)
+    } catch (e) {
+      alert('Reset failed. Check connection.')
+    } finally { hideLoading() }
   }
 
   // ── RENDER ──
@@ -789,8 +842,8 @@
       : [...sales].reverse().map(s => `
         <tr>
           <td>${s.date}</td>
-          <td style="color:var(--green);">${rm(s.sale)}</td>
-          <td style="color:var(--accent2);">${rm(s.profit)}</td>
+          <td style="color:var(--green);">${rm(Number(s.sale))}</td>
+          <td style="color:var(--accent2);">${rm(Number(s.profit))}</td>
           <td style="color:var(--muted);">${s.note||'—'}</td>
           <td><span class="tag tag-blue">${s.by}</span></td>
           <td><button class="btn btn-del" onclick="delSale(${s.id})">✕</button></td>
@@ -804,11 +857,16 @@
         <tr>
           <td>${m.date}</td>
           <td>${m.item}</td>
-          <td style="color:var(--red);">${rm(m.price)}</td>
+          <td style="color:var(--red);">${rm(Number(m.price))}</td>
           <td><span class="tag tag-red">${m.by}</span></td>
           <td><button class="btn btn-del" onclick="delModal(${m.id})">✕</button></td>
         </tr>`).join('')
   }
+
+  // Auto refresh every 60 seconds
+  setInterval(() => {
+    if (currentUser) loadData()
+  }, 60000)
 </script>
 </body>
 </html>
