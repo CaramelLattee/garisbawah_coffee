@@ -366,6 +366,12 @@
     </div>
     <div class="header-right">
       <div class="user-tag">logged in as <span id="userDisplay"></span></div>
+      <button class="logout-btn" onclick="resetMonth()" 
+        style="border-color:#e8a020; color:#e8a020;">
+        ↓ End Month & Reset</button>
+      <button class="logout-btn" onclick="exportCSV()"
+        style="border-color:#4caf7d; color:#4caf7d;">
+        ↓ Export CSV</button>
       <button class="logout-btn" onclick="logout()">← logout</button>
     </div>
   </div>
@@ -742,6 +748,93 @@
           <td><span class="tag tag-red">${m.by}</span></td>
           <td><button class="btn btn-del" onclick="delModal(${m.id})">✕</button></td>
         </tr>`).join('')
+  }
+
+  function resetMonth() {
+  if (!confirm('This will download the CSV report and reset all data for the new month. Are you sure?')) return
+
+  // Step 1 — Download CSV
+  exportCSV()
+
+  // Step 2 — Carry remaining budget to previous balance
+  const totalSales  = sum(sales, 'sale')
+  const totalProfit = sum(sales, 'profit')
+  const totalModal  = sum(modals, 'price')
+  const remaining   = prevBalance + totalSales - totalProfit - totalModal
+
+  // Step 3 — Save remaining as new previous balance
+  prevBalance = remaining
+  localStorage.setItem('gb_prevbal', prevBalance)
+
+  // Step 4 — Clear sales and modals
+  sales  = []
+  modals = []
+  localStorage.setItem('gb_sales',  JSON.stringify(sales))
+  localStorage.setItem('gb_modals', JSON.stringify(modals))
+
+  // Step 5 — Update UI
+  document.getElementById('prevBalance').value = prevBalance
+  render()
+
+  alert('✅ Month reset complete! Previous balance carried over: RM ' + prevBalance.toFixed(2))
+}
+
+function exportCSV() {
+  const period = getPeriod()
+
+  // Build CSV content
+  let csv = `GarisBawah Coffee — Monthly Report\n`
+  csv    += `Period:,${period}\n`
+  csv    += `Previous Balance:,${prevBalance.toFixed(2)}\n\n`
+
+  // Sales section
+  csv += `DAILY SALES & PROFIT\n`
+  csv += `Date,Sales (RM),Profit (RM),Note,Entered By\n`
+  sales.forEach(s => {
+    csv += `${s.date},${s.sale.toFixed(2)},${s.profit.toFixed(2)},"${s.note||''}",${s.by}\n`
+  })
+
+  const totalSales  = sum(sales, 'sale')
+  const totalProfit = sum(sales, 'profit')
+  csv += `TOTAL,${totalSales.toFixed(2)},${totalProfit.toFixed(2)}\n\n`
+
+  // Modal section
+  csv += `MODAL / PURCHASES\n`
+  csv += `Date,Item,Price (RM),Bought By\n`
+  modals.forEach(m => {
+    csv += `${m.date},"${m.item}",${m.price.toFixed(2)},${m.by}\n`
+  })
+
+  const totalModal = sum(modals, 'price')
+  csv += `TOTAL,,${totalModal.toFixed(2)}\n\n`
+
+  // Summary
+  const remaining = prevBalance + totalSales - totalProfit - totalModal
+  const company   = totalProfit * 0.20
+  const investor  = totalProfit * 0.10
+  const perOwner  = (totalProfit * 0.70) / 3
+
+  csv += `SUMMARY\n`
+  csv += `Total Sales,${totalSales.toFixed(2)}\n`
+  csv += `Total Profit,${totalProfit.toFixed(2)}\n`
+  csv += `Total Modal,${totalModal.toFixed(2)}\n`
+  csv += `Remaining Budget,${remaining.toFixed(2)}\n\n`
+
+  csv += `PROFIT DISTRIBUTION\n`
+  csv += `Company (20%),${company.toFixed(2)}\n`
+  csv += `Investor (10%),${investor.toFixed(2)}\n`
+  csv += `Owner 1 - Pijoy (23.33%),${perOwner.toFixed(2)}\n`
+  csv += `Owner 2 - Amir (23.33%),${perOwner.toFixed(2)}\n`
+  csv += `Owner 3 - Afiq (23.33%),${perOwner.toFixed(2)}\n`
+
+  // Download the file
+  const blob = new Blob([csv], { type: 'text/csv' })
+  const url  = URL.createObjectURL(blob)
+  const a    = document.createElement('a')
+  a.href     = url
+  a.download = `GBC_Report_${new Date().toISOString().split('T')[0]}.csv`
+  a.click()
+  URL.revokeObjectURL(url)
   }
 </script>
 </body>
